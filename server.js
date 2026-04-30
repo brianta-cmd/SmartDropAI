@@ -78,7 +78,7 @@ app.post("/whatsapp", async (req, res) => {
     ) {
       const msg = req.body.entry[0].changes[0].value.messages[0];
       const from = msg.from; // Phone number
-      const phoneId = req.body.entry[0].id; // The exact Meta Phone ID that received the message
+      const phoneId = req.body.entry[0].changes[0].value.metadata.phone_number_id; // The exact Meta Phone ID that received the message
       const userMessage = msg.text ? msg.text.body.trim() : "";
       
       console.log(`📨 Received from ${from} on Phone ID ${phoneId}: ${userMessage}`);
