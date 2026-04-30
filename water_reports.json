@@ -1,0 +1,364 @@
+[
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-30",
+    "water_status": "Water arrived",
+    "households_reporting": 24,
+    "pressure": "Low",
+    "arrival_time": "02:20"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-30",
+    "water_status": "No water",
+    "households_reporting": 51
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-29",
+    "water_status": "Low pressure",
+    "households_reporting": 42,
+    "pressure": "Low",
+    "arrival_time": "04:16"
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-29",
+    "water_status": "Low pressure",
+    "households_reporting": 29,
+    "pressure": "Low",
+    "arrival_time": "04:09"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-29",
+    "water_status": "Water arrived",
+    "households_reporting": 47,
+    "pressure": "Normal",
+    "arrival_time": "00:40"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-27",
+    "water_status": "Low pressure",
+    "households_reporting": 26,
+    "pressure": "Low",
+    "arrival_time": "02:06"
+  },
+  {
+    "suburb": "Glen Norah",
+    "date": "2026-04-27",
+    "water_status": "Water arrived",
+    "households_reporting": 23,
+    "pressure": "Low",
+    "arrival_time": "01:22"
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-27",
+    "water_status": "No water",
+    "households_reporting": 30
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-26",
+    "water_status": "No water",
+    "households_reporting": 12
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-26",
+    "water_status": "Low pressure",
+    "households_reporting": 32,
+    "pressure": "Normal",
+    "arrival_time": "02:03"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-26",
+    "water_status": "No water",
+    "households_reporting": 29
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-26",
+    "water_status": "No water",
+    "households_reporting": 6
+  },
+  {
+    "suburb": "Glen Norah",
+    "date": "2026-04-25",
+    "water_status": "Water arrived",
+    "households_reporting": 53,
+    "pressure": "Low",
+    "arrival_time": "00:07"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-25",
+    "water_status": "Low pressure",
+    "households_reporting": 48,
+    "pressure": "Normal",
+    "arrival_time": "01:54"
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-25",
+    "water_status": "No water",
+    "households_reporting": 36
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-24",
+    "water_status": "No water",
+    "households_reporting": 52
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-24",
+    "water_status": "No water",
+    "households_reporting": 15
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-24",
+    "water_status": "No water",
+    "households_reporting": 27
+  },
+  {
+    "suburb": "Glen Norah",
+    "date": "2026-04-24",
+    "water_status": "No water",
+    "households_reporting": 31
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-24",
+    "water_status": "No water",
+    "households_reporting": 48
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-23",
+    "water_status": "Low pressure",
+    "households_reporting": 32,
+    "pressure": "Normal",
+    "arrival_time": "03:22"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-23",
+    "water_status": "Low pressure",
+    "households_reporting": 17,
+    "pressure": "Low",
+    "arrival_time": "03:41"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-23",
+    "water_status": "Water arrived",
+    "households_reporting": 52,
+    "pressure": "Normal",
+    "arrival_time": "01:48"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-23",
+    "water_status": "Low pressure",
+    "households_reporting": 18,
+    "pressure": "Normal",
+    "arrival_time": "05:49"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-23",
+    "water_status": "Water arrived",
+    "households_reporting": 44,
+    "pressure": "Low",
+    "arrival_time": "05:50"
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-23",
+    "water_status": "No water",
+    "households_reporting": 11
+  },
+  {
+    "suburb": "Glen Norah",
+    "date": "2026-04-23",
+    "water_status": "Low pressure",
+    "households_reporting": 54,
+    "pressure": "Normal",
+    "arrival_time": "02:51"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-23",
+    "water_status": "Low pressure",
+    "households_reporting": 49,
+    "pressure": "Low",
+    "arrival_time": "05:02"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-22",
+    "water_status": "Water arrived",
+    "households_reporting": 9,
+    "pressure": "Low",
+    "arrival_time": "04:14"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-22",
+    "water_status": "Water arrived",
+    "households_reporting": 22,
+    "pressure": "Low",
+    "arrival_time": "05:44"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-22",
+    "water_status": "Water arrived",
+    "households_reporting": 13,
+    "pressure": "Normal",
+    "arrival_time": "04:49"
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-21",
+    "water_status": "No water",
+    "households_reporting": 36
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-21",
+    "water_status": "Low pressure",
+    "households_reporting": 49,
+    "pressure": "Low",
+    "arrival_time": "00:35"
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-21",
+    "water_status": "No water",
+    "households_reporting": 45
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-21",
+    "water_status": "Low pressure",
+    "households_reporting": 25,
+    "pressure": "Normal",
+    "arrival_time": "05:04"
+  },
+  {
+    "suburb": "Glen Norah",
+    "date": "2026-04-21",
+    "water_status": "No water",
+    "households_reporting": 16
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-21",
+    "water_status": "No water",
+    "households_reporting": 9
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-21",
+    "water_status": "No water",
+    "households_reporting": 42
+  },
+  {
+    "suburb": "Glen Norah",
+    "date": "2026-04-21",
+    "water_status": "Low pressure",
+    "households_reporting": 14,
+    "pressure": "Normal",
+    "arrival_time": "01:33"
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-20",
+    "water_status": "Low pressure",
+    "households_reporting": 43,
+    "pressure": "Normal",
+    "arrival_time": "04:07"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-20",
+    "water_status": "Low pressure",
+    "households_reporting": 36,
+    "pressure": "Low",
+    "arrival_time": "05:26"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-19",
+    "water_status": "Low pressure",
+    "households_reporting": 40,
+    "pressure": "Low",
+    "arrival_time": "01:17"
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-19",
+    "water_status": "Low pressure",
+    "households_reporting": 9,
+    "pressure": "Normal",
+    "arrival_time": "03:29"
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-18",
+    "water_status": "Low pressure",
+    "households_reporting": 37,
+    "pressure": "Normal",
+    "arrival_time": "00:44"
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-18",
+    "water_status": "Water arrived",
+    "households_reporting": 6,
+    "pressure": "Normal",
+    "arrival_time": "02:35"
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-18",
+    "water_status": "Low pressure",
+    "households_reporting": 25,
+    "pressure": "Normal",
+    "arrival_time": "03:56"
+  },
+  {
+    "suburb": "Highfield",
+    "date": "2026-04-18",
+    "water_status": "No water",
+    "households_reporting": 49
+  },
+  {
+    "suburb": "Kuwadzana",
+    "date": "2026-04-18",
+    "water_status": "Water arrived",
+    "households_reporting": 16,
+    "pressure": "Normal",
+    "arrival_time": "02:42"
+  },
+  {
+    "suburb": "Budiriro",
+    "date": "2026-04-17",
+    "water_status": "No water",
+    "households_reporting": 8
+  },
+  {
+    "suburb": "Mabelreign",
+    "date": "2026-04-17",
+    "water_status": "Water arrived",
+    "households_reporting": 40,
+    "pressure": "Low",
+    "arrival_time": "03:10"
+  }
+]
