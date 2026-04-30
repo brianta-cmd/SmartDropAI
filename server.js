@@ -6,8 +6,8 @@ const app = express();
 app.use(express.json()); // Meta sends JSON, not urlencoded like Twilio
 
 // IMPORTANT HACKATHON KEYS
-const GEMINI_KEY = process.env.GEMINI_API_KEY || "";
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "smartdrop_hackathon"; 
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN || "smartdrop_hackathon";
 let META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN || "";
 let META_PHONE_ID = process.env.META_PHONE_ID || "1090063544188400"; // TACA2WORLD Real Number
 
@@ -21,7 +21,7 @@ try {
 }
 
 // In-memory Database for Hackathon Prototype
-const users = {}; 
+const users = {};
 
 // Helper function to send WhatsApp messages via Meta API
 async function sendMessage(phoneId, to, text) {
@@ -65,7 +65,7 @@ app.get("/whatsapp", (req, res) => {
 app.post("/whatsapp", async (req, res) => {
   // Always return 200 OK immediately to Meta so they don't retry
   res.sendStatus(200);
-  
+
   console.log("RAW PAYLOAD RECEIVED:");
   console.log(JSON.stringify(req.body, null, 2));
 
@@ -80,7 +80,7 @@ app.post("/whatsapp", async (req, res) => {
       const from = msg.from; // Phone number
       const phoneId = req.body.entry[0].changes[0].value.metadata.phone_number_id; // The exact Meta Phone ID that received the message
       const userMessage = msg.text ? msg.text.body.trim() : "";
-      
+
       console.log(`📨 Received from ${from} on Phone ID ${phoneId}: ${userMessage}`);
 
       // Initialize user state if new
@@ -90,22 +90,22 @@ app.post("/whatsapp", async (req, res) => {
       const user = users[from];
 
       // --- CONVERSATION STATE MACHINE ---
-      
+
       // Step 1 & 9: Greeting / Return
       if (["hi", "hello", "hie"].includes(userMessage.toLowerCase())) {
         if (user.step === "MAIN_MENU" || user.step === "AWAITING_MENU_CHOICE") {
-           // Returning user
-           const greeting = user.language === "EN" 
-             ? `Welcome back ${user.name} 👋\n${user.location} water assistant ready.\n\nWhat do you want to check today?\n\n💧 SmartDrop Menu\n1️⃣ Will water come today?\n2️⃣ Report water status\n3️⃣ Community water map\n4️⃣ Change location\n5️⃣ Help`
-             : `Mawuya zvekare ${user.name} 👋\nSmartDrop ye ${user.location} yagadzirira.\n\nMunoda kuita chii nhasi?\n\n💧 SmartDrop Menu\n1️⃣ Mvura ichauya nhasi here?\n2️⃣ Taura mamiriro emvura\n3️⃣ Mamiriro enharaunda\n4️⃣ Chinja nzvimbo\n5️⃣ Rubatsiro`;
-           await sendMessage(phoneId, from, greeting);
-           user.step = "AWAITING_MENU_CHOICE";
-           return;
+          // Returning user
+          const greeting = user.language === "EN"
+            ? `Welcome back ${user.name} 👋\n${user.location} water assistant ready.\n\nWhat do you want to check today?\n\n💧 SmartDrop Menu\n1️⃣ Will water come today?\n2️⃣ Report water status\n3️⃣ Community water map\n4️⃣ Change location\n5️⃣ Help`
+            : `Mawuya zvekare ${user.name} 👋\nSmartDrop ye ${user.location} yagadzirira.\n\nMunoda kuita chii nhasi?\n\n💧 SmartDrop Menu\n1️⃣ Mvura ichauya nhasi here?\n2️⃣ Taura mamiriro emvura\n3️⃣ Mamiriro enharaunda\n4️⃣ Chinja nzvimbo\n5️⃣ Rubatsiro`;
+          await sendMessage(phoneId, from, greeting);
+          user.step = "AWAITING_MENU_CHOICE";
+          return;
         } else {
-           // New User
-           await sendMessage(phoneId, from, `💧 Welcome to SmartDrop AI\n\nI help you know when water will come and allow your community to report water status.\n\nPlease choose your language:\n1️⃣ English\n2️⃣ Shona`);
-           user.step = "AWAITING_LANGUAGE";
-           return;
+          // New User
+          await sendMessage(phoneId, from, `💧 Welcome to SmartDrop AI\n\nI help you know when water will come and allow your community to report water status.\n\nPlease choose your language:\n1️⃣ English\n2️⃣ Shona`);
+          user.step = "AWAITING_LANGUAGE";
+          return;
         }
       }
 
@@ -170,25 +170,34 @@ Reply:
 3️⃣ No water`;
           try {
             const response = await axios.post(
-              `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${GEMINI_KEY}`,
+              `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
               { contents: [{ parts: [{ text: prompt }] }] }
             );
-            const aiReply = response.data.candidates[0].content.parts[0].text;
-            await sendMessage(phoneId, from, aiReply);
-            user.step = "AWAITING_REPORT";
+            
+            // Robust parsing of Gemini response
+            const aiReply = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+            
+            if (aiReply) {
+              await sendMessage(phoneId, from, aiReply);
+              user.step = "AWAITING_REPORT";
+            } else {
+              console.error("Gemini Empty Response:", JSON.stringify(response.data));
+              await sendMessage(phoneId, from, "Sorry, the AI is having trouble generating a reply. Please try again.");
+            }
           } catch (err) {
+            console.error("Gemini API Error:", err.response ? JSON.stringify(err.response.data) : err.message);
             await sendMessage(phoneId, from, "Sorry, AI is offline.");
           }
-        } 
+        }
         else if (userMessage === "4") {
-           // Change location
-           const msg = user.language === "EN" ? "Which suburb do you live in?" : "Munogara kupi?";
-           await sendMessage(phoneId, from, msg);
-           user.step = "AWAITING_LOCATION";
+          // Change location
+          const msg = user.language === "EN" ? "Which suburb do you live in?" : "Munogara kupi?";
+          await sendMessage(phoneId, from, msg);
+          user.step = "AWAITING_LOCATION";
         }
         else {
-           const msg = user.language === "EN" ? "Menu option coming soon!" : "Izvi zvichauya munguva pfupi!";
-           await sendMessage(phoneId, from, msg);
+          const msg = user.language === "EN" ? "Menu option coming soon!" : "Izvi zvichauya munguva pfupi!";
+          await sendMessage(phoneId, from, msg);
         }
         return;
       }
@@ -201,7 +210,7 @@ Reply:
         if (userMessage === "3") status = "No water";
 
         console.log(`🔥 FIRESTORE SAVE SIMULATION: ${user.name} reported ${status} in ${user.location}`);
-        
+
         const thanks = user.language === "EN"
           ? `✅ Thank you!\nYour report helps SmartDrop AI learn and improve water predictions for everyone.`
           : `✅ Tatenda!\nMashoko enyu anobatsira SmartDrop AI kudzidza nekuvandudza mashoko emvura.`;
