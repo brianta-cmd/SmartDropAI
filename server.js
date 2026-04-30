@@ -24,14 +24,14 @@ try {
 const users = {}; 
 
 // Helper function to send WhatsApp messages via Meta API
-async function sendMessage(to, text) {
-  if (META_ACCESS_TOKEN === "PASTE_YOUR_META_TOKEN_HERE") {
+async function sendMessage(phoneId, to, text) {
+  if (META_ACCESS_TOKEN === "PASTE_YOUR_META_TOKEN_HERE" || META_ACCESS_TOKEN === "") {
     console.log("⚠️ Meta Token missing. Would have sent:", text);
     return;
   }
   try {
     await axios.post(
-      `https://graph.facebook.com/v18.0/${META_PHONE_ID}/messages`,
+      `https://graph.facebook.com/v18.0/${phoneId}/messages`,
       {
         messaging_product: "whatsapp",
         to: to,
@@ -78,9 +78,10 @@ app.post("/whatsapp", async (req, res) => {
     ) {
       const msg = req.body.entry[0].changes[0].value.messages[0];
       const from = msg.from; // Phone number
+      const phoneId = req.body.entry[0].id; // The exact Meta Phone ID that received the message
       const userMessage = msg.text ? msg.text.body.trim() : "";
       
-      console.log(`📨 Received from ${from}: ${userMessage}`);
+      console.log(`📨 Received from ${from} on Phone ID ${phoneId}: ${userMessage}`);
 
       // Initialize user state if new
       if (!users[from]) {
@@ -97,12 +98,12 @@ app.post("/whatsapp", async (req, res) => {
            const greeting = user.language === "EN" 
              ? `Welcome back ${user.name} 👋\n${user.location} water assistant ready.\n\nWhat do you want to check today?\n\n💧 SmartDrop Menu\n1️⃣ Will water come today?\n2️⃣ Report water status\n3️⃣ Community water map\n4️⃣ Change location\n5️⃣ Help`
              : `Mawuya zvekare ${user.name} 👋\nSmartDrop ye ${user.location} yagadzirira.\n\nMunoda kuita chii nhasi?\n\n💧 SmartDrop Menu\n1️⃣ Mvura ichauya nhasi here?\n2️⃣ Taura mamiriro emvura\n3️⃣ Mamiriro enharaunda\n4️⃣ Chinja nzvimbo\n5️⃣ Rubatsiro`;
-           await sendMessage(from, greeting);
+           await sendMessage(phoneId, from, greeting);
            user.step = "AWAITING_MENU_CHOICE";
            return;
         } else {
            // New User
-           await sendMessage(from, `💧 Welcome to SmartDrop AI\n\nI help you know when water will come and allow your community to report water status.\n\nPlease choose your language:\n1️⃣ English\n2️⃣ Shona`);
+           await sendMessage(phoneId, from, `💧 Welcome to SmartDrop AI\n\nI help you know when water will come and allow your community to report water status.\n\nPlease choose your language:\n1️⃣ English\n2️⃣ Shona`);
            user.step = "AWAITING_LANGUAGE";
            return;
         }
@@ -112,12 +113,12 @@ app.post("/whatsapp", async (req, res) => {
       if (user.step === "AWAITING_LANGUAGE") {
         if (userMessage === "1") {
           user.language = "EN";
-          await sendMessage(from, `Great 👍\nLet’s set up your water assistant.\n\nWhat is your name?`);
+          await sendMessage(phoneId, from, `Great 👍\nLet’s set up your water assistant.\n\nWhat is your name?`);
         } else if (userMessage === "2") {
           user.language = "SH";
-          await sendMessage(from, `Zvakanaka 👍\nNgatigadzirise SmartDrop AI yako.\n\nZita renyu ndiani?`);
+          await sendMessage(phoneId, from, `Zvakanaka 👍\nNgatigadzirise SmartDrop AI yako.\n\nZita renyu ndiani?`);
         } else {
-          await sendMessage(from, `Please choose 1 or 2.`);
+          await sendMessage(phoneId, from, `Please choose 1 or 2.`);
           return;
         }
         user.step = "AWAITING_NAME";
@@ -128,9 +129,9 @@ app.post("/whatsapp", async (req, res) => {
       if (user.step === "AWAITING_NAME") {
         user.name = userMessage;
         if (user.language === "EN") {
-          await sendMessage(from, `Nice to meet you ${user.name} 👋\n\nWhich suburb do you live in?\nExample: Budiriro, Glen Norah, Kuwadzana`);
+          await sendMessage(phoneId, from, `Nice to meet you ${user.name} 👋\n\nWhich suburb do you live in?\nExample: Budiriro, Glen Norah, Kuwadzana`);
         } else {
-          await sendMessage(from, `Ndinofara kusangana nemi ${user.name} 👋\n\nMunogara kupi?\nSemuyenzaniso: Budiriro, Glen Norah, Kuwadzana`);
+          await sendMessage(phoneId, from, `Ndinofara kusangana nemi ${user.name} 👋\n\nMunogara kupi?\nSemuyenzaniso: Budiriro, Glen Norah, Kuwadzana`);
         }
         user.step = "AWAITING_LOCATION";
         return;
@@ -142,7 +143,7 @@ app.post("/whatsapp", async (req, res) => {
         const menu = user.language === "EN"
           ? `✅ Registered!\nYou will now receive water updates for ${user.location}.\n\nWhat would you like to do?\n\n💧 SmartDrop Menu\n1️⃣ Will water come today?\n2️⃣ Report water status\n3️⃣ Community water map\n4️⃣ Change location\n5️⃣ Help`
           : `✅ Manyoreswa!\nMuchawana mashoko emvura e${user.location}.\n\nMunoda kuita chii?\n\n💧 SmartDrop Menu\n1️⃣ Mvura ichauya nhasi here?\n2️⃣ Taura mamiriro emvura\n3️⃣ Mamiriro enharaunda\n4️⃣ Chinja nzvimbo\n5️⃣ Rubatsiro`;
-        await sendMessage(from, menu);
+        await sendMessage(phoneId, from, menu);
         user.step = "AWAITING_MENU_CHOICE";
         return;
       }
@@ -152,7 +153,7 @@ app.post("/whatsapp", async (req, res) => {
         if (userMessage === "1") {
           // Gemini Prediction Logic
           const analyzingMsg = user.language === "EN" ? "🤖 Checking community reports..." : "🤖 Ndiri kutarisa mashoko evanhu...";
-          await sendMessage(from, analyzingMsg);
+          await sendMessage(phoneId, from, analyzingMsg);
 
           const recentData = JSON.stringify(dummyData.slice(0, 15), null, 2);
           const prompt = `You are the SmartDrop AI assistant. Using the following local water data: 
@@ -173,21 +174,21 @@ Reply:
               { contents: [{ parts: [{ text: prompt }] }] }
             );
             const aiReply = response.data.candidates[0].content.parts[0].text;
-            await sendMessage(from, aiReply);
+            await sendMessage(phoneId, from, aiReply);
             user.step = "AWAITING_REPORT";
           } catch (err) {
-            await sendMessage(from, "Sorry, AI is offline.");
+            await sendMessage(phoneId, from, "Sorry, AI is offline.");
           }
         } 
         else if (userMessage === "4") {
            // Change location
            const msg = user.language === "EN" ? "Which suburb do you live in?" : "Munogara kupi?";
-           await sendMessage(from, msg);
+           await sendMessage(phoneId, from, msg);
            user.step = "AWAITING_LOCATION";
         }
         else {
            const msg = user.language === "EN" ? "Menu option coming soon!" : "Izvi zvichauya munguva pfupi!";
-           await sendMessage(from, msg);
+           await sendMessage(phoneId, from, msg);
         }
         return;
       }
@@ -204,7 +205,7 @@ Reply:
         const thanks = user.language === "EN"
           ? `✅ Thank you!\nYour report helps SmartDrop AI learn and improve water predictions for everyone.`
           : `✅ Tatenda!\nMashoko enyu anobatsira SmartDrop AI kudzidza nekuvandudza mashoko emvura.`;
-        await sendMessage(from, thanks);
+        await sendMessage(phoneId, from, thanks);
         user.step = "AWAITING_MENU_CHOICE";
         return;
       }
